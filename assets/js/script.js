@@ -28,12 +28,14 @@ var taskFormHandler = function(event) {
     formEl.reset();
 
   var isEdit = formEl.hasAttribute("data-task-id");
+
   //Package up the data as an object
   var taskDataObj = {
     name: taskNameInput,
     type: taskTypeInput,
     status: "to do"
   }
+  console.log(taskDataObj);
 
   // send it as an arguement to createTaskEl
   // has data attribute, so get task id and call function to complete edit process
@@ -79,9 +81,9 @@ else {
       tasks.push(taskDataObj);
       // increase task counter for next unique id
       taskIdCounter++;
+      saveTasks();
 
-      console.log(taskDataObj);
-      console.log(taskDataObj.status);
+      
     };
 
     //function for adding buttons and task actions within a task
@@ -170,7 +172,7 @@ for (var i = 0; i < tasks.length; i++) {
     tasks[i].status = statusValue;
   }
 }
-console.log(tasks);
+    saveTasks();
   };
 
   var editTask = function(taskId) {
@@ -210,6 +212,7 @@ for (var i = 0; i < tasks.length; i++) {
 
 // reassign tasks array to be the same as updatedTaskArr
 tasks = updatedTaskArr;
+    saveTasks();
    };
 
    var completeEditTask = function(taskName, taskType, taskId) {
@@ -227,7 +230,8 @@ for (var i = 0; i < tasks.length; i++) {
     tasks[i].type = taskType;
   }
 };
- 
+saveTasks()
+
   alert("Task Updated!");
 
   formEl.removeAttribute("data-task-id");
@@ -240,4 +244,7 @@ document.querySelector("#save-task").textContent = "Add Task";
   pageContentEl.addEventListener("click", taskButtonHandler);
   pageContentEl.addEventListener("change", taskStatusChangeHandler);
 
-
+  
+  var saveTasks = function () {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
